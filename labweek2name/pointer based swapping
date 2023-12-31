@@ -1,3 +1,7 @@
+/* Name = rushi hundiwala
+USN=1BM22CS224 */
+
+
 #include <stdio.h>
 
 void swap(int *p,int *q){
