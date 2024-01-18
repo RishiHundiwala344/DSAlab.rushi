@@ -1,0 +1,134 @@
+name= rushi hunwdiwala
+usn=1BM22CS224
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+void pop() {
+    if (head == NULL) {
+        printf("EMPTY LIST");
+        return;
+    }
+    struct node *ptr = head;
+    head = head->next;
+    free(ptr);
+    printf("node deleted\n");
+}
+
+void end_delete() {
+    if (head == NULL) {
+        printf("list is empty\n");
+        return;
+    }
+    if (head->next == NULL) {
+        free(head);
+        head = NULL;
+        printf("node deleted from end\n");
+        return;
+    }
+
+    struct node *ptr = head;
+    struct node *ptr1 = NULL;
+
+    while (ptr->next != NULL) {
+        ptr1 = ptr;
+        ptr = ptr->next;
+    }
+
+    ptr1->next = NULL;
+    free(ptr);
+    printf("node deleted from end\n");
+}
+
+void delete_at_pos(int position) {
+    struct node *ptr = head;
+    struct node *ptr1 = NULL;
+    if (head == NULL) {
+        printf("EMPTY LIST\n");
+        return;
+    }
+
+for (int i = 1; ptr != NULL && i < position; i++) {
+    ptr1 = ptr;
+    ptr = ptr->next;
+}
+
+    if (ptr == NULL) {
+        printf("there are fewer elements\n");
+        return;
+    }
+
+    if (ptr1 == NULL) {
+        head = ptr->next;
+    } else {
+        ptr1->next = ptr->next;
+    }
+
+    free(ptr);
+    printf("node deleted from position\n");
+}
+
+void display() {
+    if (head == NULL) {
+        printf("empty list\n");
+        return;
+    }
+    struct node *current = head;
+    printf("linked list: ");
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    int choice;
+
+    do {
+        printf("\nMenu:\n");
+        printf("1. Delete from front\n");
+        printf("2. Delete from end\n");
+        printf("3. Delete at position\n");
+        printf("4. Display\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                pop();
+                break;
+            case 2:
+                end_delete();
+                break;
+            case 3: {
+                int position;
+                printf("Enter the position from where you want to delete: ");
+                scanf("%d", &position);
+                delete_at_pos(position);
+                break;
+            }
+            case 4:
+                display();
+                break;
+            case 5:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 5);
+
+    return 0;
+}
+
+
