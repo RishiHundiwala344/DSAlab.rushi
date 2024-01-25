@@ -1,0 +1,156 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Stack structure
+struct Stack {
+    struct Node* top;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to push a node onto the stack
+void push(struct Stack* stack, int data) {
+    struct Node* newNode = createNode(data);
+    newNode->next = stack->top;
+    stack->top = newNode;
+}
+
+// Function to pop a node from the stack
+int pop(struct Stack* stack) {
+    if (stack->top == NULL) {
+        printf("Stack underflow\n");
+        return -1; // Or any other error indicator
+    }
+    struct Node* temp = stack->top;
+    int poppedData = temp->data;
+    stack->top = temp->next;
+    free(temp);
+    return poppedData;
+}
+
+// Function to display the stack
+void displayStack(struct Stack* stack) {
+    struct Node* current = stack->top;
+    printf("Stack: ");
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+// Example usage:
+int main() {
+    struct Stack stack;
+    stack.top = NULL;
+
+    push(&stack, 3);
+    push(&stack, 1);
+    push(&stack, 5);
+
+    displayStack(&stack);
+
+    int poppedData = pop(&stack);
+    if (poppedData != -1) {
+        printf("Popped element: %d\n", poppedData);
+    }
+
+    displayStack(&stack);
+
+    return 0;
+}
+//queue implementation
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Queue structure
+struct Queue {
+    struct Node* front;
+    struct Node* rear;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to enqueue a node into the queue
+void enqueue(struct Queue* queue, int data) {
+    struct Node* newNode = createNode(data);
+    if (queue->rear == NULL) {
+        queue->front = queue->rear = newNode;
+        return;
+    }
+    queue->rear->next = newNode;
+    queue->rear = newNode;
+}
+
+// Function to dequeue a node from the queue
+int dequeue(struct Queue* queue) {
+    if (queue->front == NULL) {
+        printf("Queue underflow\n");
+        return -1; // Or any other error indicator
+    }
+    struct Node* temp = queue->front;
+    int dequeuedData = temp->data;
+    queue->front = temp->next;
+    if (queue->front == NULL) {
+        queue->rear = NULL; // Queue becomes empty after dequeue
+    }
+    free(temp);
+    return dequeuedData;
+}
+
+// Function to display the queue
+void displayQueue(struct Queue* queue) {
+    struct Node* current = queue->front;
+    printf("Queue: ");
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+// Example usage:
+int main() {
+    struct Queue queue;
+    queue.front = queue.rear = NULL;
+
+    enqueue(&queue, 3);
+    enqueue(&queue, 1);
+    enqueue(&queue, 5);
+
+    displayQueue(&queue);
+
+    int dequeuedData = dequeue(&queue);
+    if (dequeuedData != -1) {
+        printf("Dequeued element: %d\n", dequeuedData);
+    }
+
+    displayQueue(&queue);
+
+    return 0;
+}
