@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Linked list structure
+struct LinkedList {
+    struct Node* head;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to append a node to the linked list
+void append(struct LinkedList* list, int data) {
+    struct Node* newNode = createNode(data);
+    if (list->head == NULL) {
+        list->head = newNode;
+        return;
+    }
+    struct Node* lastNode = list->head;
+    while (lastNode->next != NULL) {
+        lastNode = lastNode->next;
+    }
+    lastNode->next = newNode;
+}
+
+// Function to display the linked list
+void display(struct LinkedList* list) {
+    struct Node* current = list->head;
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+// Function to sort the linked list
+void sortList(struct LinkedList* list) {
+    // Implementation of sorting logic (e.g., bubble sort)
+    // ...
+
+    // Example: Bubble sort for simplicity
+    int swapped, temp;
+    struct Node* current;
+    struct Node* last = NULL;
+
+    do {
+        swapped = 0;
+        current = list->head;
+
+        while (current->next != last) {
+            if (current->data > current->next->data) {
+                // Swap data
+                temp = current->data;
+                current->data = current->next->data;
+                current->next->data = temp;
+                swapped = 1;
+            }
+            current = current->next;
+        }
+        last = current;
+    } while (swapped);
+}
+
+// Function to reverse the linked list
+void reverseList(struct LinkedList* list) {
+    // Implementation of reversing logic
+    // ...
+}
+
+// Function to concatenate two linked lists
+void concatenateLists(struct LinkedList* list1, struct LinkedList* list2) {
+    // Implementation of concatenation logic
+    // ...
+}
+
+// Example usage:
+int main() {
+    struct LinkedList linkedList;
+    linkedList.head = NULL;
+
+    append(&linkedList, 3);
+    append(&linkedList, 1);
+    append(&linkedList, 5);
+    append(&linkedList, 2);
+
+    printf("Original Linked List: ");
+    display(&linkedList);
+
+    sortList(&linkedList);
+    printf("\nSorted Linked List: ");
+    display(&linkedList);
+
+    // Additional implementation for reverse and concatenate if needed
+
+    return 0;
+}
