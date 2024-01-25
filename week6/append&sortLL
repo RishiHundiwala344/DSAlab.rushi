@@ -74,18 +74,33 @@ void sortList(struct LinkedList* list) {
 
 // Function to reverse the linked list
 void reverseList(struct LinkedList* list) {
-    // Implementation of reversing logic
-    // ...
+    struct Node *prev = NULL, *current = list->head, *nextNode;
+    while (current != NULL) {
+        nextNode = current->next;
+        current->next = prev;
+        prev = current;
+        current = nextNode;
+    }
+    list->head = prev;
 }
 
 // Function to concatenate two linked lists
 void concatenateLists(struct LinkedList* list1, struct LinkedList* list2) {
-    // Implementation of concatenation logic
-    // ...
+    if (list1->head == NULL) {
+        list1->head = list2->head;
+    } else {
+        struct Node* current = list1->head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = list2->head;
+    }
+    list2->head = NULL; // Set head of list2 to NULL after concatenation
 }
 
 // Example usage:
 int main() {
+    int main() {
     struct LinkedList linkedList;
     linkedList.head = NULL;
 
@@ -101,7 +116,24 @@ int main() {
     printf("\nSorted Linked List: ");
     display(&linkedList);
 
-    // Additional implementation for reverse and concatenate if needed
+
+    reverseList(&linkedList);
+    printf("\nReversed Linked List: ");
+    display(&linkedList);
+
+    struct LinkedList linkedList2;
+    linkedList2.head = NULL;
+
+    append(&linkedList2, 8);
+    append(&linkedList2, 6);
+    append(&linkedList2, 7);
+
+    printf("\nSecond Linked List: ");
+    display(&linkedList2);
+
+    concatenateLists(&linkedList, &linkedList2);
+    printf("\nConcatenated Linked List: ");
+    display(&linkedList);
 
     return 0;
 }
