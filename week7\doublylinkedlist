@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a doubly linked list node
+struct Node {
+    int data;
+    struct Node* prev;
+    struct Node* next;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert a new node to the left of a specific node
+void insertLeftOfNode(struct Node** head, int newValue, int specificValue) {
+    struct Node* newNode = createNode(newValue);
+    struct Node* current = *head;
+
+    while (current != NULL && current->data != specificValue) {
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Node with specific value not found.\n");
+        return;
+    }
+
+    if (current->prev != NULL) {
+        current->prev->next = newNode;
+        newNode->prev = current->prev;
+    } else {
+        *head = newNode;
+    }
+
+    newNode->next = current;
+    current->prev = newNode;
+}
+
+// Function to delete a node based on a specific value
+void deleteNodeByValue(struct Node** head, int deleteValue) {
+    struct Node* current = *head;
+
+    while (current != NULL && current->data != deleteValue) {
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Node with specified value not found.\n");
+        return;
+    }
+
+    if (current->prev != NULL) {
+        current->prev->next = current->next;
+    } else {
+        *head = current->next;
+    }
+
+    if (current->next != NULL) {
+        current->next->prev = current->prev;
+    }
+
+    free(current);
+}
+
+// Function to display the contents of the doubly linked list
+void displayList(struct Node* head) {
+    struct Node* current = head;
+
+    while (current != NULL) {
+        printf("%d <-> ", current->data);
+        current = current->next;
+    }
+
+    printf("NULL\n");
+}
+
+// Function to create a sample doubly linked list
+void createList(struct Node** head) {
+    // Sample list: 1 <-> 2 <-> 3 <-> 4 <-> 5
+    for (int i = 1; i <= 5; ++i) {
+        struct Node* newNode = createNode(i);
+        if (*head == NULL) {
+            *head = newNode;
+        } else {
+            struct Node* temp = *head;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->prev = temp;
+        }
+    }
+}
+
+// Example usage:
+int main() {
+    struct Node* head = NULL;
+
+    // Create a doubly linked list
+    createList(&head);
+
+    // Insert a new node to the left of a specific node
+    insertLeftOfNode(&head, 6, 3);
+
+    // Delete a node based on a specific value
+    deleteNodeByValue(&head, 2);
+
+    // Display the contents of the doubly linked list
+    displayList(head);
+
+    return 0;
+}
