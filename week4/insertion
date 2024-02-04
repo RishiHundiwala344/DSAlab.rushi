@@ -1,0 +1,67 @@
+struct Node {
+  int data;
+  struct Node *next;
+};
+
+struct Node *insertAtBeginning(struct Node *head, int data) {
+  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+  newNode->data = data;
+  newNode->next = head;
+  return newNode;
+}
+
+struct Node *insertAtPosition(struct Node *head, int data, int position) {
+  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+  newNode->data = data;
+
+  if (position == 1) {
+    newNode->next = head;
+    return newNode;
+  }
+
+  struct Node *current = head;
+  for (int i = 1; i < position - 1; i++) {
+    current = current->next;
+  }
+
+  newNode->next = current->next;
+  current->next = newNode;
+
+  return head;
+}
+struct Node *insertAtEnd(struct Node *head, int data) {
+  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+  newNode->data = data;
+  newNode->next = NULL;
+
+  if (head == NULL) {
+    return newNode;
+  }
+
+  struct Node *current = head;
+  while (current->next != NULL) {
+    current = current->next;
+  }
+
+  current->next = newNode;
+
+  return head;
+}
+
+int main() {
+  struct Node *head = NULL;
+
+  head = insertAtBeginning(head, 10);
+  head = insertAtBeginning(head, 20);
+  head = insertAtBeginning(head, 30);
+
+  head = insertAtPosition(head, 40, 2);
+
+  struct Node *current = head;
+  while (current != NULL) {
+    printf("%d ", current->data);
+    current = current->next;
+  }
+
+  return 0;
+}
